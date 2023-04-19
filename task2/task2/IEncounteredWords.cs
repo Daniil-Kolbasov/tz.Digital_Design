@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace task2
+﻿namespace task2
 {
 	internal interface IEncounteredWords
 	{
-		public IEnumerable<(string, int)> GetList(string input);
+		public IEnumerable<(string, int)> GetList(string input, bool ignorCase);
 	}
 }

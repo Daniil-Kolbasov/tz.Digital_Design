@@ -4,12 +4,15 @@ namespace task2
 {
 	internal class EncounteredWords : IEncounteredWords
 	{
-		public IEnumerable<(string, int)> GetList(string input)
+		public IEnumerable<(string, int)> GetList(string input, bool ignorCase = true)
 		{
-			input = input.ToLower();
-
 			List<string> words = new();
 
+			// option ignoring the case
+			if (ignorCase)
+				input = input.ToLower();
+
+			// find words
 			foreach (Match match in Regex.Matches(input, @"\w+('\w*)?").Cast<Match>())
 			{
 				// exception number
@@ -23,6 +26,7 @@ namespace task2
 					words.Add(match.Value);
 			}
 
+			// sorded and grouped
 			var result = from x in words
 						 group x by x into g
 						 let count = g.Count()
