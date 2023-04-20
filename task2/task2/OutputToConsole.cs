@@ -1,35 +1,54 @@
-﻿namespace task2
+﻿using task2.Algorithms;
+using task2.Formats;
+
+namespace task2
 {
 	internal class OutputToConsole
 	{
 		public static void Output()
 		{
-			ISavingFormats savingFormats = new(new EncounteredWords());
-			string readFrom = "sampleQuotes.txt";
-			string writeTo = "result.txt";
+			msg("Open a file (path of a file):");
+			string readFrom = enter();
 
-			Console.WriteLine("Do you want to install files for reading and writing?");
-			Console.WriteLine("(Yes/No):");
+			msg("Save the file (path of the file):");
+			string writeTo = enter();
 
-			string option = Console.ReadLine() ?? "no";
-			if (option.ToLower() == "yes")
-			{
-				Console.WriteLine("\nSet the path to read the file:");
-				readFrom = Console.ReadLine() ?? readFrom;
-
-				Console.WriteLine("\nSet the path to write the file:");
-				writeTo = Console.ReadLine() ?? writeTo;
-			}
+			IFormat format;
+			format = new PlainTextFormats(new RegexEncounteredWords());
 
 			try
 			{
-				savingFormats.SimpleText(readFrom, writeTo);
-				Console.WriteLine("Сompleted successfully");
+				format.RecordWords(readFrom, writeTo);
+				msg("Сompleted successfully");
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				err(ex.Message);
 			}
+		}
+
+		private static string enter()
+		{
+			string? input;
+			do
+				input = Console.ReadLine();
+			while (input == null);
+            Console.WriteLine();
+            return input;
+		}
+
+		private static void msg(string text)
+		{
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.WriteLine(text);
+            Console.ForegroundColor = ConsoleColor.Gray;
+		}
+
+		private static void err(string text)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(text);
+			Console.ForegroundColor = ConsoleColor.Gray;
 		}
 	}
 }
